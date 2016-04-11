@@ -9,8 +9,36 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="pavlo.com.lightdistance.LightDistanceActivity">
 
-    <TextView
+    <Button
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Red"
+        android:id="@+id/red_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="onRedButtonClick" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Green"
+        android:id="@+id/green_button"
+        android:layout_alignTop="@+id/red_button"
+        android:layout_toRightOf="@+id/red_button"
+        android:layout_toEndOf="@+id/red_button"
+        android:onClick="onGreenButtonClick" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blue"
+        android:id="@+id/blue_button"
+        android:layout_alignTop="@+id/green_button"
+        android:layout_toRightOf="@+id/green_button"
+        android:layout_toEndOf="@+id/green_button"
+        android:onClick="onBlueButtonClick" />
 </RelativeLayout>
