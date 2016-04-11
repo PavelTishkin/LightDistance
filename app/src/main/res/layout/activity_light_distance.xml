@@ -9,36 +9,37 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="pavlo.com.lightdistance.LightDistanceActivity">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Red"
-        android:id="@+id/red_button"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:width="100px"
+        android:id="@+id/beacon1_distance"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="onRedButtonClick" />
+        android:layout_alignParentStart="true" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Green"
-        android:id="@+id/green_button"
-        android:layout_alignTop="@+id/red_button"
-        android:layout_toRightOf="@+id/red_button"
-        android:layout_toEndOf="@+id/red_button"
-        android:onClick="onGreenButtonClick" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:width="100px"
+        android:id="@+id/beacon2_distance"
+        android:layout_alignTop="@+id/beacon1_distance"
+        android:layout_toRightOf="@+id/beacon1_distance"
+        android:layout_toEndOf="@+id/beacon1_distance" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Blue"
-        android:id="@+id/blue_button"
-        android:layout_alignTop="@+id/green_button"
-        android:layout_toRightOf="@+id/green_button"
-        android:layout_toEndOf="@+id/green_button"
-        android:onClick="onBlueButtonClick" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:width="100px"
+        android:id="@+id/beacon3_distance"
+        android:layout_alignTop="@+id/beacon2_distance"
+        android:layout_toRightOf="@+id/beacon2_distance"
+        android:layout_toEndOf="@+id/beacon2_distance" />
 </RelativeLayout>

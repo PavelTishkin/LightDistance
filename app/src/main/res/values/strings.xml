@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LightDistance</string>
+    <string name="beacon_group_uuid">b9407f30-f5f8-466e-aff9-25556b57fe6d</string>
+    <integer name="beacon1_major">63153</integer>
+    <integer name="beacon2_major">54450</integer>
+    <integer name="beacon3_major">42966</integer>
 </resources>
+
