@@ -6,16 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.Region;
 
+import java.util.List;
 import java.util.UUID;
 
-import pavlo.com.lightdistance.beaconutils.LightMonitoringListener;
-import pavlo.com.lightdistance.beaconutils.LightServiceReadyCallback;
+import pavlo.com.lightdistance.beaconutils.LightRangingListener;
 
 public class LightDistanceActivity extends AppCompatActivity {
 
     private BeaconManager beaconManager;
+    private Region allBeaconsRegion;
     private UUID beaconUUID;
     private int beacon1Major;
     private int beacon2Major;
@@ -39,13 +42,52 @@ public class LightDistanceActivity extends AppCompatActivity {
         beacon2TextViewId = R.id.beacon2_distance;
         beacon3TextViewId = R.id.beacon3_distance;
 
+        allBeaconsRegion = new Region("Light Source", beaconUUID, null, null);
+
         beaconManager = new BeaconManager(getApplicationContext());
+        beaconManager.setBackgroundScanPeriod(1000, 5000);
 
-        beaconManager.setMonitoringListener(new LightMonitoringListener(this, beacon1TextViewId, beacon2TextViewId, beacon3TextViewId, beacon1Major, beacon2Major, beacon3Major));
+        beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
+            @Override
+            public void onEnteredRegion(Region region, List<Beacon> beaconList) {
 
-        beaconManager.connect(new LightServiceReadyCallback(beaconManager, beaconUUID, beacon1Major));
-        beaconManager.connect(new LightServiceReadyCallback(beaconManager, beaconUUID, beacon2Major));
-        beaconManager.connect(new LightServiceReadyCallback(beaconManager, beaconUUID, beacon3Major));
+            }
+
+            @Override
+            public void onExitedRegion(Region region) {
+                updateTextView(beacon1TextViewId, 0);
+                updateTextView(beacon2TextViewId, 0);
+                updateTextView(beacon3TextViewId, 0);
+
+            }
+        });
+        beaconManager.setRangingListener(new LightRangingListener(this, beacon1TextViewId, beacon2TextViewId, beacon3TextViewId, beacon1Major, beacon2Major, beacon3Major));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                beaconManager.startMonitoring(allBeaconsRegion);
+                beaconManager.startRanging(allBeaconsRegion);
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        beaconManager.stopMonitoring(allBeaconsRegion);
+        beaconManager.stopRanging(allBeaconsRegion);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     public void onRedButtonClick(View view) {
