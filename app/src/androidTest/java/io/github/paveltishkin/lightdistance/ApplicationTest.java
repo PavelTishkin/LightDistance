@@ -1,4 +1,4 @@
-package pavlo.com.lightdistance;
+package io.github.paveltishkin.lightdistance;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

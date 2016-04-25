@@ -1,4 +1,4 @@
-package pavlo.com.lightdistance.beaconutils;
+package io.github.paveltishkin.lightdistance;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
@@ -6,10 +6,8 @@ import com.estimote.sdk.Region;
 
 import java.util.List;
 
-import pavlo.com.lightdistance.LightDistanceActivity;
-
 /**
- * Created by paul on 11/04/16.
+ * Created by Pavel Tishkin on 11/04/16.
  */
 public class LightRangingListener implements BeaconManager.RangingListener {
 
@@ -38,18 +36,43 @@ public class LightRangingListener implements BeaconManager.RangingListener {
         lightDistanceActivity.updateTextView(beacon1TextViewId, 0);
         lightDistanceActivity.updateTextView(beacon2TextViewId, 0);
         lightDistanceActivity.updateTextView(beacon3TextViewId, 0);
+        int redIntensity = 50;
+        int greenIntensity = 50;
+        int blueIntensity = 50;
 
         for (Beacon currentBeacon : beaconList) {
-            int measuredPower = currentBeacon.getRssi();
+            int rssi = currentBeacon.getRssi();
+            int txPower = currentBeacon.getMeasuredPower();
+            int colorIntensity = calculateColorIntensity(txPower, rssi);
+
             if (currentBeacon.getMajor() == beacon1Major) {
-                lightDistanceActivity.updateTextView(beacon1TextViewId, measuredPower);
+                lightDistanceActivity.updateTextView(beacon1TextViewId, rssi);
+                redIntensity = colorIntensity;
             }
             else if (currentBeacon.getMajor() == beacon2Major) {
-                lightDistanceActivity.updateTextView(beacon2TextViewId, measuredPower);
+                lightDistanceActivity.updateTextView(beacon2TextViewId, rssi);
+                greenIntensity = colorIntensity;
             }
             else if (currentBeacon.getMajor() == beacon3Major) {
-                lightDistanceActivity.updateTextView(beacon3TextViewId, measuredPower);
+                lightDistanceActivity.updateTextView(beacon3TextViewId, rssi);
+                blueIntensity = colorIntensity;
             }
+        }
+        lightDistanceActivity.updateBackgroundColor(redIntensity, greenIntensity, blueIntensity);
+    }
+
+    private static int calculateColorIntensity(int txPower, double rssi) {
+        if (rssi == 0) {
+            return 50;
+        }
+
+        double ratio = rssi*1.0/txPower;
+        if (ratio < 1.0) {
+            return Math.max(255 - Math.min((int) (Math.pow(ratio, 10) * 160), 255), 50);
+        }
+        else {
+            double accuracy =  (0.89976)*Math.pow(ratio,7.7095) + 0.111;
+            return Math.max(255 - Math.min((int) (accuracy * 160), 255), 50);
         }
     }
 }

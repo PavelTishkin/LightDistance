@@ -1,8 +1,9 @@
-package pavlo.com.lightdistance;
+package io.github.paveltishkin.lightdistance;
 
+import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,8 +13,6 @@ import com.estimote.sdk.Region;
 
 import java.util.List;
 import java.util.UUID;
-
-import pavlo.com.lightdistance.beaconutils.LightRangingListener;
 
 public class LightDistanceActivity extends AppCompatActivity {
 
@@ -90,6 +89,11 @@ public class LightDistanceActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public void onSettingsButtonClick(View view) {
+        Intent i = new Intent(getApplicationContext(), BeaconsListActivity.class);
+        startActivity(i);
+    }
+
     public void onRedButtonClick(View view) {
         getWindow().getDecorView().setBackgroundColor(Color.argb(255, 255, 0, 0));
     }
@@ -109,6 +113,14 @@ public class LightDistanceActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 textView.setText("" + updateText);
+            }
+        });
+    }
+
+    public void updateBackgroundColor(final int red, final int green, final int blue) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                getWindow().getDecorView().setBackgroundColor(Color.argb(255, red, green, blue));
             }
         });
     }

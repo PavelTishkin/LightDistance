@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "pavlo.com.lightdistance"
+        applicationId "io.github.paveltishkin.lightdistance"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1

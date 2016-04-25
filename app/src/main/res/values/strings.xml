@@ -4,5 +4,14 @@
     <integer name="beacon1_major">63153</integer>
     <integer name="beacon2_major">54450</integer>
     <integer name="beacon3_major">42966</integer>
-</resources>
 
+    <string name="major1_label">Major 1</string>
+    <string name="major2_label">Major 2</string>
+    <string name="major3_label">Major 3</string>
+
+    <string name="settings_button_name">Settings</string>
+    <string name="save_button_name">Save</string>
+    <string name="cancel_button_name">Cancel</string>
+
+    <string name="settings_storage">LightDistanceStorage</string>
+</resources>
