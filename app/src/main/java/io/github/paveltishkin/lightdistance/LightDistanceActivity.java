@@ -1,6 +1,7 @@
 package io.github.paveltishkin.lightdistance;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,23 +20,22 @@ public class LightDistanceActivity extends AppCompatActivity {
     private BeaconManager beaconManager;
     private Region allBeaconsRegion;
     private UUID beaconUUID;
-    private int beacon1Major;
-    private int beacon2Major;
-    private int beacon3Major;
     private int beacon1TextViewId;
     private int beacon2TextViewId;
     private int beacon3TextViewId;
+    private LightRangingListener lightRangingListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_light_distance);
 
-        beaconUUID = UUID.fromString(getResources().getString(R.string.beacon_group_uuid));
+        SharedPreferences settings = getSharedPreferences(getString(R.string.settings_storage), 0);
+        int beacon1Major = settings.getInt("Major1", 0);
+        int beacon2Major = settings.getInt("Major2", 0);
+        int beacon3Major = settings.getInt("Major3", 0);
 
-        beacon1Major = getResources().getInteger(R.integer.beacon1_major);
-        beacon2Major = getResources().getInteger(R.integer.beacon2_major);
-        beacon3Major = getResources().getInteger(R.integer.beacon3_major);
+        beaconUUID = UUID.fromString(getResources().getString(R.string.beacon_group_uuid));
 
         beacon1TextViewId = R.id.beacon1_distance;
         beacon2TextViewId = R.id.beacon2_distance;
@@ -57,10 +57,11 @@ public class LightDistanceActivity extends AppCompatActivity {
                 updateTextView(beacon1TextViewId, 0);
                 updateTextView(beacon2TextViewId, 0);
                 updateTextView(beacon3TextViewId, 0);
-
             }
         });
-        beaconManager.setRangingListener(new LightRangingListener(this, beacon1TextViewId, beacon2TextViewId, beacon3TextViewId, beacon1Major, beacon2Major, beacon3Major));
+        lightRangingListener = new LightRangingListener(this, beacon1TextViewId, beacon2TextViewId, beacon3TextViewId, beacon1Major, beacon2Major, beacon3Major);
+
+        beaconManager.setRangingListener(lightRangingListener);
     }
 
     @Override
@@ -92,18 +93,6 @@ public class LightDistanceActivity extends AppCompatActivity {
     public void onSettingsButtonClick(View view) {
         Intent i = new Intent(getApplicationContext(), BeaconsListActivity.class);
         startActivity(i);
-    }
-
-    public void onRedButtonClick(View view) {
-        getWindow().getDecorView().setBackgroundColor(Color.argb(255, 255, 0, 0));
-    }
-
-    public void onGreenButtonClick(View view) {
-        getWindow().getDecorView().setBackgroundColor(Color.argb(255, 0, 255, 0));
-    }
-
-    public void onBlueButtonClick(View view) {
-        getWindow().getDecorView().setBackgroundColor(Color.argb(255, 0, 0, 255));
     }
 
     public void updateTextView(int viewId, final int updateText) {

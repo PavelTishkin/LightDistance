@@ -1,5 +1,7 @@
 package io.github.paveltishkin.lightdistance;
 
+import android.content.SharedPreferences;
+
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
@@ -11,13 +13,14 @@ import java.util.List;
  */
 public class LightRangingListener implements BeaconManager.RangingListener {
 
-    LightDistanceActivity lightDistanceActivity;
-    int beacon1TextViewId;
-    int beacon2TextViewId;
-    int beacon3TextViewId;
-    int beacon1Major;
-    int beacon2Major;
-    int beacon3Major;
+    private LightDistanceActivity lightDistanceActivity;
+    private int beacon1TextViewId;
+    private int beacon2TextViewId;
+    private int beacon3TextViewId;
+    private int beacon1Major;
+    private int beacon2Major;
+    private int beacon3Major;
+    private SharedPreferences settings;
 
     public LightRangingListener(LightDistanceActivity lightDistanceActivity, int beacon1TextViewId, int beacon2TextViewId, int beacon3TextViewId,
                                 int beacon1Major, int beacon2Major, int beacon3Major) {
@@ -28,11 +31,13 @@ public class LightRangingListener implements BeaconManager.RangingListener {
         this.beacon1Major = beacon1Major;
         this.beacon2Major = beacon2Major;
         this.beacon3Major = beacon3Major;
+        settings = lightDistanceActivity.getSharedPreferences(lightDistanceActivity.getString(R.string.settings_storage), 0);
     }
 
     @Override
     public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
         System.out.print("Beacons: " + beaconList);
+        updateBeaconListFromSettings();
         lightDistanceActivity.updateTextView(beacon1TextViewId, 0);
         lightDistanceActivity.updateTextView(beacon2TextViewId, 0);
         lightDistanceActivity.updateTextView(beacon3TextViewId, 0);
@@ -61,6 +66,12 @@ public class LightRangingListener implements BeaconManager.RangingListener {
         lightDistanceActivity.updateBackgroundColor(redIntensity, greenIntensity, blueIntensity);
     }
 
+    private void updateBeaconListFromSettings() {
+        beacon1Major = settings.getInt("Major1", 0);
+        beacon2Major = settings.getInt("Major2", 0);
+        beacon3Major = settings.getInt("Major3", 0);
+    }
+
     private static int calculateColorIntensity(int txPower, double rssi) {
         if (rssi == 0) {
             return 50;
@@ -74,5 +85,29 @@ public class LightRangingListener implements BeaconManager.RangingListener {
             double accuracy =  (0.89976)*Math.pow(ratio,7.7095) + 0.111;
             return Math.max(255 - Math.min((int) (accuracy * 160), 255), 50);
         }
+    }
+
+    public int getBeacon1Major() {
+        return this.beacon1Major;
+    }
+
+    public void setBeacon1Major(int beacon1Major) {
+        this.beacon1Major = beacon1Major;
+    }
+
+    public int getBeacon2Major() {
+        return this.beacon2Major;
+    }
+
+    public void setBeacon2Major(int beacon2Major) {
+        this.beacon2Major = beacon2Major;
+    }
+
+    public int getBeacon3Major() {
+        return this.beacon3Major;
+    }
+
+    public void setBeacon3Major(int beacon3Major) {
+        this.beacon3Major = beacon3Major;
     }
 }
