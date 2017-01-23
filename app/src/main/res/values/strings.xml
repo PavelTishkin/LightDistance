@@ -11,4 +11,6 @@
     <string name="cancel_button_name">Cancel</string>
 
     <string name="settings_storage">LightDistanceStorage</string>
+
+    <string name="beacon_settings_name">Beacon settings</string>
 </resources>
