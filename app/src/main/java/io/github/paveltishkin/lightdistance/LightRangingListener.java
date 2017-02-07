@@ -5,8 +5,11 @@ import android.content.SharedPreferences;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
+import com.estimote.sdk.repackaged.gson_v2_3_1.com.google.gson.Gson;
 
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Pavel Tishkin on 11/04/16.
@@ -37,6 +40,12 @@ public class LightRangingListener implements BeaconManager.RangingListener {
     @Override
     public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
         System.out.print("Beacons: " + beaconList);
+
+        SharedPreferences.Editor prefsEditor = settings.edit();
+        String beaconsListJson = new Gson().toJson(beaconList);
+        prefsEditor.putString(lightDistanceActivity.getString(R.string.detected_beacons_key), beaconsListJson);
+        prefsEditor.commit();
+
         updateBeaconListFromSettings();
         lightDistanceActivity.updateTextView(beacon1TextViewId, 0);
         lightDistanceActivity.updateTextView(beacon2TextViewId, 0);
@@ -51,15 +60,15 @@ public class LightRangingListener implements BeaconManager.RangingListener {
             int colorIntensity = calculateColorIntensity(txPower, rssi);
 
             if (currentBeacon.getMajor() == beacon1Major) {
-                lightDistanceActivity.updateTextView(beacon1TextViewId, rssi);
+                //lightDistanceActivity.updateTextView(beacon1TextViewId, rssi);
                 redIntensity = colorIntensity;
             }
-            else if (currentBeacon.getMajor() == beacon2Major) {
-                lightDistanceActivity.updateTextView(beacon2TextViewId, rssi);
+            if (currentBeacon.getMajor() == beacon2Major) {
+                //lightDistanceActivity.updateTextView(beacon2TextViewId, rssi);
                 greenIntensity = colorIntensity;
             }
-            else if (currentBeacon.getMajor() == beacon3Major) {
-                lightDistanceActivity.updateTextView(beacon3TextViewId, rssi);
+            if (currentBeacon.getMajor() == beacon3Major) {
+                //lightDistanceActivity.updateTextView(beacon3TextViewId, rssi);
                 blueIntensity = colorIntensity;
             }
         }
@@ -67,9 +76,24 @@ public class LightRangingListener implements BeaconManager.RangingListener {
     }
 
     private void updateBeaconListFromSettings() {
-        beacon1Major = settings.getInt("Major1", 0);
+        String beacon1MajorString = settings.getString(lightDistanceActivity.getResources().getString(R.string.beacon_major_key) + "_red", "");
+        if (beacon1MajorString != "") {
+            beacon1Major = Integer.valueOf(beacon1MajorString);
+        }
+
+        String beacon2MajorString = settings.getString(lightDistanceActivity.getResources().getString(R.string.beacon_major_key) + "_green", "");
+        if (beacon2MajorString != "") {
+            beacon2Major = Integer.valueOf(beacon2MajorString);
+        }
+
+        String beacon3MajorString = settings.getString(lightDistanceActivity.getResources().getString(R.string.beacon_major_key) + "_blue", "");
+        if (beacon3MajorString != "") {
+            beacon3Major = Integer.valueOf(beacon3MajorString);
+        }
+
+/*        beacon1Major = settings.getInt("Major1", 0);
         beacon2Major = settings.getInt("Major2", 0);
-        beacon3Major = settings.getInt("Major3", 0);
+        beacon3Major = settings.getInt("Major3", 0);*/
     }
 
     private static int calculateColorIntensity(int txPower, double rssi) {

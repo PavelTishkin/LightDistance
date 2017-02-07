@@ -10,7 +10,7 @@
     tools:context=".lightdistance.LightDistanceActivity">
 
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -41,6 +41,6 @@
         android:id="@+id/beacon3_distance"
         android:layout_alignTop="@+id/beacon2_distance"
         android:layout_toRightOf="@+id/beacon2_distance"
-        android:layout_toEndOf="@+id/beacon2_distance" />
+        android:layout_toEndOf="@+id/beacon2_distance" />-->
 
 </RelativeLayout>

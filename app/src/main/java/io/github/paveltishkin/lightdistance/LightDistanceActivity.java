@@ -40,9 +40,9 @@ public class LightDistanceActivity extends AppCompatActivity {
 
         beaconUUID = UUID.fromString(getResources().getString(R.string.beacon_group_uuid));
 
-        beacon1TextViewId = R.id.beacon1_distance;
+/*        beacon1TextViewId = R.id.beacon1_distance;
         beacon2TextViewId = R.id.beacon2_distance;
-        beacon3TextViewId = R.id.beacon3_distance;
+        beacon3TextViewId = R.id.beacon3_distance;*/
 
         allBeaconsRegion = new Region("Light Source", beaconUUID, null, null);
 
@@ -113,13 +113,13 @@ public class LightDistanceActivity extends AppCompatActivity {
 
     public void updateTextView(int viewId, final int updateText) {
 
-        final TextView textView = (TextView)this.findViewById(viewId);
+       /* final TextView textView = (TextView)this.findViewById(viewId);
 
         runOnUiThread(new Runnable() {
             public void run() {
                 textView.setText("" + updateText);
             }
-        });
+        });*/
     }
 
     public void updateBackgroundColor(final int red, final int green, final int blue) {

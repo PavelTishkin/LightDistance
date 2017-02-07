@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_beacon_colors">
+        <item>@string/beacon_red_name</item>
+        <item>@string/beacon_green_name</item>
+        <item>@string/beacon_blue_name</item>
+    </string-array>
+
+    <string-array name="pref_beacon_values">
+        <item>@string/beacon_red_value</item>
+        <item>@string/beacon_green_value</item>
+        <item>@string/beacon_blue_value</item>
+    </string-array>
+</resources>

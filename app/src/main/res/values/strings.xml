@@ -13,4 +13,20 @@
     <string name="settings_storage">LightDistanceStorage</string>
 
     <string name="beacon_settings_name">Beacon settings</string>
+
+    <string name="beacon_red_name">Red</string>
+    <string name="beacon_green_name">Green</string>
+    <string name="beacon_blue_name">Blue</string>
+
+    <string name="beacon_red_value">red</string>
+    <string name="beacon_green_value">green</string>
+    <string name="beacon_blue_value">blue</string>
+
+    <string name="preference_file_key">io.github.paveltishkin.lightdistance.BeaconData</string>
+    <string name="detected_beacons_key">detected_beacons</string>
+
+    <string name="beacon_color_key" translatable="false">beacon_color_key</string>
+    <string name="beacon_uuid_key" translatable="false">beacon_uuid_key</string>
+    <string name="beacon_major_key" translatable="false">beacon_major_key</string>
+    <string name="beacon_minor_key" translatable="false">beacon_minor_key</string>
 </resources>
